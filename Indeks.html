@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Ai buatan Sandy</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #141e30, #243b55);
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      width: 90%;
+      max-width: 800px;
+      background-color: rgba(0, 0, 0, 0.7);
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+    }
+    .chat {
+      height: 400px;
+      overflow-y: auto;
+      border: 1px solid #00ffff55;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 10px;
+      background: #111;
+    }
+    .chat div {
+      margin: 10px 0;
+    }
+    .user { color: #1abc9c; }
+    .ai { color: #f39c12; }
+    .input-area {
+      display: flex;
+    }
+    input[type="text"] {
+      flex: 1;
+      padding: 12px;
+      font-size: 16px;
+      border: none;
+      border-radius: 10px 0 0 10px;
+    }
+    button {
+      padding: 12px 20px;
+      background: #00ffff;
+      color: #000;
+      border: none;
+      border-radius: 0 10px 10px 0;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    button:hover {
+      background: #0ff;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>🤖 Ai buatan Sandy</h2>
+    <div class="chat" id="chat"></div>
+    <div class="input-area">
+      <input type="text" id="input" placeholder="Tanya apa saja...">
+      <button onclick="sendMessage()">Kirim</button>
+    </div>
+  </div>
+
+  <script>
+    const chat = document.getElementById('chat');
+    const input = document.getElementById('input');
+
+    const knowledge = {
+      greetings: ["halo", "hai", "hey", "selamat pagi", "selamat malam"],
+      farewell: ["dadah", "selamat tinggal", "sampai jumpa"],
+      identity: ["siapa kamu", "apa kamu", "kamu siapa"],
+      creator: ["tolong dong jelaskan rumus luas segitiga", "siapa pencipta kamu"],
+      feelings: ["apa kabar", "kamu senang", "kamu sedih"],
+    };
+
+    function intelligentReply(msg) {
+      msg = msg.toLowerCase();
+      if (knowledge.greetings.some(g => msg.includes(g))) {
+        return "Halo! gue Racn, salam kenal.";
+      } else if (knowledge.farewell.some(f => msg.includes(f))) {
+        return "hmm! gue selalu di sini kalo lu butuh.";
+      } else if (knowledge.identity.some(i => msg.includes(i))) {
+        return "gue Ai, bot buatan sandy' lu bisa tanya pertanyaan sederhana.";
+      } else if (knowledge.creator.some(c => msg.includes(c))) {
+        return "Siap bosku! 💡 Luas segitiga = ½ × alas × tinggi Contoh: Kalau alasnya 10 cm dan tingginya 5 cm, luasnya jadi ½ × 10 × 5 = 25 cm² 😎 .";
+      } else if (knowledge.feelings.some(f => msg.includes(f))) {
+        return "gue si fan-fan aja!";
+      } else if (msg.includes("jam")) {
+        return "Sekarang jam " + new Date().toLocaleTimeString();
+      } else if (msg.includes("tanggal")) {
+        return "Hari ini tanggal " + new Date().toLocaleDateString();
+      } else if (msg.includes("cerita")) {
+        return "Dulu, ada AI yang bermimpi menjadi sahabat manusia. Dan sekarang, aku di sini.";
+      } else {
+        return "sorry gak ngerti, coba jelasin lebih sederhana ? ";
+      }
+    }
+
+    function sendMessage() {
+      const text = input.value.trim();
+      if (!text) return;
+
+      const userDiv = document.createElement('div');
+      userDiv.innerHTML = `<span class='user'>Kamu:</span> ${text}`;
+      chat.appendChild(userDiv);
+
+      const response = intelligentReply(text);
+
+      const aiDiv = document.createElement('div');
+      aiDiv.innerHTML = `<span class='ai'>AI:</span> ${response}`;
+      chat.appendChild(aiDiv);
+
+      chat.scrollTop = chat.scrollHeight;
+      input.value = "";
+    }
+
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') sendMessage();
+    });
+  </script>
+</body>
+</html>
